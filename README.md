@@ -44,3 +44,17 @@ Para no llevarte sorpresas en la factura a final de mes, recuerda siempre destru
 ```bash
 terraform destroy
 ```
+
+## 🤖 Agent Skills & Automatización
+
+Para asegurar la máxima calidad y seguridad en la infraestructura, se han instalado una serie de "skills" automatizadas en el repositorio utilizando el comando:
+```bash
+npx autoskills
+```
+
+Estas reglas, que puedes encontrar en [agent/skills.md](./agent/skills.md), dictan el comportamiento esperado y las mejores prácticas al momento de gestionar este código:
+
+- **General**: Adopción de convenciones de HashiCorp (`terraform fmt`, `snake_case`), gestión segura del estado, uso de descripciones en variables y ocultamiento de datos sensibles.
+- **AWS**: Pinning de versión, etiquetado global obligatorio (`default_tags`), políticas de mínimo privilegio y configuración estricta de seguridad en S3 y EBS (encriptación y bloqueo de acceso público).
+- **Azure**: Pinning de versión en `azurerm`, transferencia segura en Storage Accounts, encriptación en Key Vaults y uso obligatorio de Managed Disks.
+- **Validación**: Comprobaciones de seguridad obligatorias (similares a `tfsec` o `checkov`) antes de aplicar cambios para evitar puertos abiertos, secretos hardcodeados o dependencias cíclicas.
