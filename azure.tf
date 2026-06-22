@@ -2,14 +2,13 @@
 resource "azurerm_resource_group" "rg" {
   name     = "${var.project_name}-rg"
   location = var.azure_location
-}
 
-# Sufijo aleatorio para que el nombre del Storage Account sea único (requiere ser único a nivel global)
-#esource "random_string" "storage_suffix" {
-# length  = 6
-# special = false
-# upper   = false
-#
+  tags = {
+    Environment = var.environment
+    Project     = var.project_name
+    ManagedBy   = "Terraform"
+  }
+}
 
 # Cuenta de Almacenamiento (Storage Account)
 resource "azurerm_storage_account" "storage" {
@@ -18,6 +17,14 @@ resource "azurerm_storage_account" "storage" {
   location                 = azurerm_resource_group.rg.location
   account_tier             = "Standard"
   account_replication_type = "LRS"
+
+  https_traffic_only_enabled = true
+
+  tags = {
+    Environment = var.environment
+    Project     = var.project_name
+    ManagedBy   = "Terraform"
+  }
 }
 
 # Contenedor para guardar archivos (equivalente al S3 Bucket en Azure)

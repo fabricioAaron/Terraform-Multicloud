@@ -13,3 +13,22 @@ resource "aws_s3_bucket" "portfolio_bucket" {
     Project     = var.project_name
   }
 }
+
+# Bloquear acceso público al bucket S3
+resource "aws_s3_bucket_public_access_block" "portfolio_bucket_pab" {
+  bucket = aws_s3_bucket.portfolio_bucket.id
+
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
+}
+
+# Habilitar versionado en el bucket S3
+resource "aws_s3_bucket_versioning" "portfolio_bucket_versioning" {
+  bucket = aws_s3_bucket.portfolio_bucket.id
+
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
